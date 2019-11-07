@@ -4,6 +4,8 @@ Rails.application.routes.draw do
 
   get '/signup', to: 'users#new'
 
+  resources :users
+
   get 'sessions/new'
 
 end
