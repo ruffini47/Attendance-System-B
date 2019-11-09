@@ -3,9 +3,15 @@
   <div class="col-md-12">
     <div class="center jumbotron" id="top-main">
       <h1 id="top-main-title">勤怠システム</h1>
-      <div class="create_account login_button">
-        <%= link_to "ログイン", login_path, class: "btn btn-lg btn-primary" %>
-      </div>
+      <% if logged_in? %>
+        <div class="create_account login_button">
+          <%= link_to "ログイン", login_path, class: "btn btn-lg btn-primary disabled" %>
+        </div>
+      <% else %>
+        <div class="create_account login_button">
+          <%= link_to "ログイン", login_path, class: "btn btn-lg btn-primary" %>
+        </div>
+      <% end %>
       <p>アカウント作成は<%= link_to "こちら", signup_path %>から</p>
     </div>
   </div>
