@@ -1,6 +1,21 @@
+/* ユーザー情報テーブル */
+
 .user-table {
   vertical-align: middle;
   text-align: center;
+}
+
+/* ユーザー勤怠情報テーブル */
+
+#table-attendances {
+  th {
+    vertical-align: middle;
+    text-align: center;
+  }
+  td {
+    vertical-align: middle;
+    text-align: center;
+  }
 }
 
 /* 入力フォーム */
@@ -21,6 +36,14 @@
   margin-top: 10px;
 }
 
+/* ユーザー一覧ページ */
+
+#table-users {
+  td {
+    vertical-align: middle;
+  }  
+}
+
 /* 基本情報の更新 */
 
 .label-basic-info--edit {
@@ -31,10 +54,4 @@
   margin-top: 10px;
 }
 
-/* ユーザー一覧ページ */
 
-#table-users {
-  td {
-    vertical-align: middle;
-  }  
-}

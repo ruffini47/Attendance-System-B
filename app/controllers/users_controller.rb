@@ -3,12 +3,14 @@ class UsersController < ApplicationController
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :edit_basic_info, :update_basic_info]#, :destroy]
   before_action :correct_user, only: [:edit, :update, :update_basic_info, :update_basic_info]
   before_action :admin_user, only: [:edit_basic_info, :update_basic_info] #:destroy
+  before_action :set_one_month, only: :show
 
   def index
     @users = User.paginate(page: params[:page])
   end
   
   def show
+    @worked_sum = @attendances.where.not(started_at: nil).count
   end
 
   def new
