@@ -2,7 +2,8 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :edit_basic_info, :update_basic_info]#, :destroy]
   before_action :logged_in_user, only: [:index, :show, :edit, :update, :edit_basic_info, :update_basic_info]#, :destroy]
   before_action :correct_user, only: [:edit, :update, :update_basic_info, :update_basic_info]
-  before_action :admin_user, only: [:edit_basic_info, :update_basic_info] #:destroy
+  before_action :admin_user, only: [:index, :edit_basic_info, :update_basic_info] #:destroy
+  before_action :admin_or_correct_user, only: :show
   before_action :set_one_month, only: :show
 
   def index
@@ -68,30 +69,15 @@ class UsersController < ApplicationController
     def basic_info_params
       params.require(:user).permit(:basic_time, :work_time)
     end
-
+    
     # beforeフィルター
     
-    # paramsハッシュからユーザーを取得します。
-    def set_user
-      @user = User.find(params[:id])
-    end
-    
-    # ログイン済みのユーザーか確認します。
-    def logged_in_user
-      unless logged_in?
-        store_location
-        flash[:danger] = "ログインしてください。"
-        redirect_to login_url
+    # 管理者権限、または現在ログインしているユーザーを許可します。
+    def admin_or_correct_user
+#      @user = User.find(params[:user_id]) if @user.blank?
+      unless current_user?(@user) || current_user.admin?
+        flash[:danger] = "編集権限がありません。"
+        redirect_to(root_url)
       end
     end
-    
-    # アクセスしたユーザーが現在ログインしているユーザーか確認します。
-    def correct_user
-      redirect_to(root_url) unless current_user?(@user)
-    end
-
-    def admin_user
-      redirect_to root_url unless current_user.admin?
-    end
 end
-
