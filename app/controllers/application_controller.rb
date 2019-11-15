@@ -94,9 +94,9 @@ class ApplicationController < ActionController::Base
             #for n in 1..@user.attendances.count do
               #if day != @user.attendances.find(n).worked_on
                 if @month == false
-                  if day < @first_day_w             
-                  @user.attendances.create!(worked_on: day)
-                  @user.attendances = @user.attendances.distinct
+                  if [day, @first_day].compact.min == day && day != @first_day   #if day < @first_day_m なら
+                    @user.attendances.create!(worked_on: day)
+                    @user.attendances = @user.attendances.distinct
                   end
                 else
                   @user.attendances.create!(worked_on: day)
