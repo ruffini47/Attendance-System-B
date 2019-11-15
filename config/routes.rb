@@ -22,6 +22,8 @@ Rails.application.routes.draw do
       patch 'update_basic_info'
       get 'attendances/edit_one_month'
       patch 'attendances/update_one_month'
+      get 'attendances/set_week'
+      get 'attendances/set_month'
     end
     resources :attendances, only: :update
   end
