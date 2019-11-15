@@ -42,40 +42,75 @@ class ApplicationController < ActionController::Base
   def set_one_month
     if params[:month].nil?
       if params[:date].nil?
-        @first_day = Date.current.beginning_of_month 
+        @first_day_m = Date.current.beginning_of_month 
       else
-        @first_day = params[:date].to_date.beginning_of_month
+        @first_day_m = params[:date].to_date.beginning_of_month
       end
-      @last_day = @first_day.end_of_month
+      @last_day_m = @first_day_m.end_of_month
       @month = true
     elsif params[:month] == "true"
       if params[:date].nil?
-        @first_day = Date.current.beginning_of_month
+        @first_day_m = Date.current.beginning_of_month
       else 
-        @first_day = params[:date].to_date.beginning_of_month
+        @first_day_m = params[:date].to_date.beginning_of_month
       end
-      @last_day = @first_day.end_of_month
+      @last_day_m = @first_day_m.end_of_month
       @month = true
     elsif params[:month] == "false"
       if params[:date].nil?
-        @first_day = Date.current.beginning_of_week
+        @first_day_w = Date.current.beginning_of_week
       else
-        @first_day= params[:date].to_date.beginning_of_week
+        @first_day_w= params[:date].to_date.beginning_of_week
       end
-      @last_day = @first_day.end_of_week
+      @last_day_w = @first_day_w.end_of_week
       @month = false
     else
     end
-    one_month = [*@first_day..@last_day] # 対象の月の日数を代入します。
+    if @month == true
+      @first_day = @first_day_m
+      @last_day = @last_day_m
+    else
+      @first_day = @first_day_w
+      @last_day = @last_day_w
+    end
+    one_month = [*@first_day..@last_day] # 対象の月の日数を代入します。  
     # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
+    @attendances = nil
+    #if @user.attendances.count != 0
+      @user.attendances.each {
+        |a| a = nil}
+    #end
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
-
-    unless one_month.count == @attendances.count # それぞれの件数（日数）が一致するか評価します。
+    
+    #if @month == false
+      @attendances = @attendances.distinct
+    #end
+    if one_month.count > @attendances.count # それぞれの件数（日数）が一致するか評価します。
       ActiveRecord::Base.transaction do # トランザクションを開始します。
         # 繰り返し処理により、1ヶ月分の勤怠データを生成します。
-        one_month.each { |day| @user.attendances.create!(worked_on: day) }
+        
+        #if @attendances.count != 0
+          one_month.each { |day|  
+            #for n in 1..@user.attendances.count do
+              #if day != @user.attendances.find(n).worked_on
+                if @month == false
+                  if day < @first_day_w             
+                  @user.attendances.create!(worked_on: day)
+                  @user.attendances = @user.attendances.distinct
+                  end
+                else
+                  @user.attendances.create!(worked_on: day)
+                  @user.attendances = @user.attendances.distinct
+                end
+              #end
+            #end
+          }
+          #if day != @attendances.first.worked_on              
+          
+        #end
       end
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
+      @attendances = @attendances.distinct
     end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"

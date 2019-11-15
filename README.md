@@ -8,4 +8,3 @@
 * Ruby
 * Rails
 * Git(SSH通信)
-* git branch
