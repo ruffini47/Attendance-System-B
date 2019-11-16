@@ -7,6 +7,8 @@
           <%= link_to "←", user_path(@user, date: @first_day.prev_month.beginning_of_month, month: true), class: "btn btn-default" %>
         <% elsif @month == false %>
           <%= link_to "←", user_path(@user, date: @first_day.prev_week.beginning_of_week, month: false), class: "btn btn-default" %>
+          <%= @first_day %>
+          <%= @first_day.prev_week.beginning_of_week  %>
         <% end %>
       　<%= l(@first_day, format: :middle) %>時間管理表
       　<% if @month == true %>

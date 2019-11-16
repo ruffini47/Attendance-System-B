@@ -122,11 +122,15 @@ class ApplicationController < ActionController::Base
                   elsif @first_day.month == @last_day.month
                     if day >= @first_day && day <= @last_day
                       # if @first_day <= day <= @last_day
+                      hit = false
                       @user.attendances.each do |d|
-                        if d.worked_on != day
-                          @user.attendances.create!(worked_on: day)
-                          @user.attendances = @user.attendances.distinct
+                        if day == d.worked_on
+                            hit = true
                         end
+                      end
+                      if hit == false
+                        @user.attendances.create!(worked_on: day)
+                        @user.attendances = @user.attendances.distinct
                       end
                     end
                   end
