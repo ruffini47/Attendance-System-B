@@ -4,15 +4,15 @@
     <tr>
       <td>
         <% if @month == true %>
-          <%= link_to "←", user_path(@user, date: @first_day.prev_month, month: @month), class: "btn btn-default" %>
-        <% else %>
-          <%= link_to "←", user_path(@user, date: @first_day.prev_week, month: @month), class: "btn btn-default" %>
+          <%= link_to "←", user_path(@user, date: @first_day.prev_month.beginning_of_month, month: true), class: "btn btn-default" %>
+        <% elsif @month == false %>
+          <%= link_to "←", user_path(@user, date: @first_day.prev_week.beginning_of_week, month: false), class: "btn btn-default" %>
         <% end %>
       　<%= l(@first_day, format: :middle) %>時間管理表
       　<% if @month == true %>
-      　   <%= link_to "→", user_path(@user, date: @first_day.next_month, month: @month), class: "btn btn-default" %>
-      　<% else %>
-      　   <%= link_to "→", user_path(@user, date: @first_day.next_week, month: @month), class: "btn btn-default" %>
+      　   <%= link_to "→", user_path(@user, date: @first_day.next_month.beginning_of_month, month: true), class: "btn btn-default" %>
+        <% elsif @month == false %>
+          <%= link_to "→", user_path(@user, date: @first_day.next_week.beginning_of_week, month: false), class: "btn btn-default" %>
         <% end %>
       </td>
       <td class="work-time">指定勤務時間　<%= format_basic_info(@user.work_time) %></td>
@@ -33,9 +33,9 @@
 <div class="btn-users-show">
   <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary edit-button" %>
   <% if @month == true %>
-    <%= link_to "週表示", attendances_set_week_user_path(@user, date: @first_day, month: @month), class: "btn btn-success" %>
+    <%= link_to "週表示にする", user_path(@user, date: @first_day.beginning_of_week(:monday), month: false), class: "btn btn-success" %>
   <% elsif @month == false %>
-    <%= link_to "月表示", attendances_set_month_user_path(@user, date: @first_day, month: @month), class: "btn btn-success" %>
+    <%= link_to "月表示にする", user_path(@user, date: @first_day.beginning_of_month, month: true), class: "btn btn-success" %>
   <% end %>
 </div>
 
