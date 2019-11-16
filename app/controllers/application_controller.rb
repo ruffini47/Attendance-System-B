@@ -113,37 +113,37 @@ class ApplicationController < ActionController::Base
                     @user.attendances.create!(worked_on: day)
                     @user.attendances = @user.attendances.distinct
                   end
-                  if @first_day.month != @last_day.month
+#                  if @first_day.month != @last_day.month
 #                    if[day, @last_day.beginning_of_month].compact.min == day && day != @last_day.beginning_of_month 
                       # if day <  @last_day.beginning_of_month なら
-                    if day >= @first_day && day <= @last_day
-                      # if @first_day <= day <= @last_day
-                      hit = false
-                      @user.attendances.each do |d|
-                        if day == d.worked_on
-                            hit = true
-                        end
-                      end
-                      if hit == false
-                        @user.attendances.create!(worked_on: day)
-                        @user.attendances = @user.attendances.distinct
+                  if day >= @first_day && day <= @last_day
+                    # if @first_day <= day <= @last_day
+                    hit = false
+                    @user.attendances.each do |d|
+                      if day == d.worked_on
+                          hit = true
                       end
                     end
-                  elsif @first_day.month == @last_day.month
-                    if day >= @first_day && day <= @last_day
-                      # if @first_day <= day <= @last_day
-                      hit = false
-                      @user.attendances.each do |d|
-                        if day == d.worked_on
-                            hit = true
-                        end
-                      end
-                      if hit == false
-                        @user.attendances.create!(worked_on: day)
-                        @user.attendances = @user.attendances.distinct
-                      end
+                    if hit == false
+                      @user.attendances.create!(worked_on: day)
+                      @user.attendances = @user.attendances.distinct
                     end
                   end
+#                  elsif @first_day.month == @last_day.month
+#                    if day >= @first_day && day <= @last_day
+                      # if @first_day <= day <= @last_day
+#                      hit = false
+#                      @user.attendances.each do |d|
+#                        if day == d.worked_on
+#                            hit = true
+#                        end
+#                      end
+#                      if hit == false
+#                        @user.attendances.create!(worked_on: day)
+#                        @user.attendances = @user.attendances.distinct
+#                      end
+#                    end
+#                  end
                 elsif @month == true
                   @user.attendances.create!(worked_on: day)
                   @user.attendances = @user.attendances.distinct
