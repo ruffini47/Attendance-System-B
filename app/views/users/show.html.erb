@@ -69,7 +69,11 @@
           <td><%= day.started_at.min.to_s.rjust(2,'0') if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
-              <%= link_to "#{btn_text}", user_attendance_path(@user, day), method: :patch, class: "btn btn-default btn-attendance" %>
+              <% if @month == true %>
+                <%= link_to "#{btn_text}", user_attendance_path(@user, day, month: true), method: :patch, class: "btn btn-default btn-attendance" %>
+              <% elsif @month == false %>
+                <%= link_to "#{btn_text}", user_attendance_path(@user, day, month: false), method: :patch, class: "btn btn-default btn-attendance" %>
+              <% end %>
             <% end %>
           </td>
           <td><%= day.finished_at.hour if day.finished_at.present? %></td>

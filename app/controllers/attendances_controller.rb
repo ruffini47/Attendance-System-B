@@ -7,6 +7,7 @@ class AttendancesController < ApplicationController
   UPDATE_ERROR_MSG = "勤怠登録に失敗しました。やり直してください。"
 
   def update
+    @month = params[:month]
     @user = User.find(params[:user_id])
     @attendance = Attendance.find(params[:id])
     # 出勤時間が未登録であることを判定します。
@@ -23,7 +24,12 @@ class AttendancesController < ApplicationController
         flash[:danger] = UPDATE_ERROR_MSG
       end
     end
-    redirect_to @user
+    @first_day = @attendance.worked_on
+    if @month == "true"
+      redirect_to user_url(@user, date: @first_day.beginning_of_month, month: true)
+    elsif @month == "false"
+      redirect_to user_url(@user, date: @first_day.beginning_of_week(:monday), month: false)
+    end
   end
   
   def edit_one_month
