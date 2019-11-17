@@ -36,6 +36,7 @@ class AttendancesController < ApplicationController
   end
   
   def update_one_month
+    @month = params[:month]
     ActiveRecord::Base.transaction do # トランザクションを開始します。
       attendances_params.each do |id, item|
         attendance = Attendance.find(id)
@@ -43,10 +44,18 @@ class AttendancesController < ApplicationController
       end
     end
     flash[:success] = "1ヶ月分の勤怠情報を更新しました。"
-    redirect_to user_url(date: params[:date])
+    if @month == "true"
+      redirect_to user_url(date: params[:date], month: true)
+    elsif @month == "false"
+      redirect_to user_url(date: params[:date], month: false)
+    end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
       flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
-      redirect_to attendances_edit_one_month_user_url(date: params[:date])
+      if @month == "true"
+        redirect_to attendances_edit_one_month_user_url(date: params[:date], month: true)
+      elsif @month == "false"
+        redirect_to attendances_edit_one_month_user_url(date: params[:date], month: false)
+      end
   end
   
   private

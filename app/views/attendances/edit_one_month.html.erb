@@ -1,5 +1,5 @@
 <% provide(:title, @user.name) %>
-<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day), local: true, method: :patch) do |f| %>
+<%= form_with(model: @user, url: attendances_update_one_month_user_path(date: @first_day, month: @month), local: true, method: :patch) do |f| %>
   <div>
     <h1>勤怠編集画面</h1>
     <table class="table table-bordered table-striped table-condensed table-hover" id="table-attendances">
@@ -40,7 +40,7 @@
   </div>
 
   <div class="center">
-    <%= link_to "キャンセル", user_path(date: @first_day), class: "btn btn-default btn-cancel" %>
+    <%= link_to "キャンセル", user_path(date: @first_day, month: @month), class: "btn btn-default btn-cancel" %>
     <%= f.submit "編集を保存する" ,class: "btn btn-default btn-save" %>
   </div>
 <% end %>

@@ -31,7 +31,11 @@
 </div>
 
 <div class="btn-users-show">
-  <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day), class: "btn btn-primary edit-button" %>
+  <% if @month == true %>
+    <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day, month: true), class: "btn btn-primary edit-button" %>
+  <% elsif @month == false %>
+    <%= link_to "勤怠を編集", attendances_edit_one_month_user_path(date: @first_day, month: false), class: "btn btn-primary edit-button" %>
+  <% end %>
   <% if @month == true %>
     <%= link_to "週表示にする", user_path(@user, date: @first_day.beginning_of_week(:monday), month: false), class: "btn btn-success" %>
   <% elsif @month == false %>
