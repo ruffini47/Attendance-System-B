@@ -57,14 +57,14 @@ class ApplicationController < ActionController::Base
     one_month = [*@first_day..@last_day] # 対象の月の日数を代入します。  
     # ユーザーに紐付く一ヶ月分のレコードを検索し取得します。
     
-    @attendances = nil
-    if @user.attendances.count != 0
-      @user.attendances.each {
-        |a| a = nil}
-    end
+#    @attendances = nil
+#    if @user.attendances.count != 0
+#      @user.attendances.each {
+#        |a| a = nil}
+#    end
     
     @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
-    @attendances = @attendances.distinct
+#    @attendances = @attendances.distinct
     
     if one_month.count > @attendances.count # それぞれの件数（日数）が一致するか評価します。
       ActiveRecord::Base.transaction do # トランザクションを開始します。
@@ -80,13 +80,13 @@ class ApplicationController < ActionController::Base
             end
             if hit == false
               @user.attendances.create!(worked_on: day)
-              @user.attendances = @user.attendances.distinct
+#              @user.attendances = @user.attendances.distinct
             end
           end
         }
       end
       @attendances = @user.attendances.where(worked_on: @first_day..@last_day).order(:worked_on)
-      @attendances = @attendances.distinct
+#      @attendances = @attendances.distinct
     end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
     flash[:danger] = "ページ情報の取得に失敗しました、再アクセスしてください。"
