@@ -75,8 +75,8 @@
           <% else %>
             <td><%= $days_of_the_week[day.worked_on.wday] %></td>
           <% end %>
-          <td><%= day.started_at.hour if day.started_at.present? %></td>
-          <td><%= day.started_at.min.to_s.rjust(2,'0') if day.started_at.present? %></td>
+          <td><%= hour_00(day.started_at.hour) if day.started_at.present? %></td>
+          <td><%= min_15(day.started_at) if day.started_at.present? %></td>
           <td>
             <% if btn_text = attendance_state(day) %>
               <% if @month == true %>
@@ -86,8 +86,8 @@
               <% end %>
             <% end %>
           </td>
-          <td><%= day.finished_at.hour if day.finished_at.present? %></td>
-          <td><%= day.finished_at.min.to_s.rjust(2,'0') if day.finished_at.present? %></td>
+          <td><%= hour_00(day.finished_at.hour) if day.finished_at.present? %></td>
+          <td><%= min_15(day.finished_at) if day.finished_at.present? %></td>
           <td></td>
           <td>
             <% if day.started_at.present? && day.finished_at.present? %>

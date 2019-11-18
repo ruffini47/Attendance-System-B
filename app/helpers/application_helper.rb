@@ -7,4 +7,14 @@ module ApplicationHelper
       page_name + " | " + base_title
     end
   end
+
+  def hour_00(at)
+    at.to_s.rjust(2,'0')
+  end
+
+  def min_15(at)
+    (at.min / 15 * 15).to_s.rjust(2,'0')
+  end
+
+
 end

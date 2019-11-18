@@ -12,6 +12,15 @@ module AttendancesHelper
   
   # 出勤時間と退勤時間を受け取り、在社時間を計算して返します。
   def working_times(start, finish)
-    format("%.2f", (((finish - start) /60) /60.0))
+    shour = start.hour
+    fhour = finish.hour
+    smin_15 = start.min / 15 * 15
+    fmin_15 = finish.min / 15 * 15
+    
+    shour_15 = shour + smin_15 / 60.0
+    fhour_15 = fhour + fmin_15 / 60.0
+
+    format("%.2f", fhour_15 - shour_15)
+    
   end
 end
