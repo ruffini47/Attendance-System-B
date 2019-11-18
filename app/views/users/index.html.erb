@@ -1,25 +1,24 @@
 <% provide(:title, 'All Users') %>
 <h1>ユーザー一覧</h1>
-
+<div id="header">
+  <p class="right">ユーザー名検索</p> 
+  <div id="nav-search">
+    <%= form_tag '#', method: :get do %>
+      <div class="input-group">
+        <%= text_field_tag :search, params[:search], placeholder: "キーワードを入力...", class: "form-control" %>
+        <span class="input-group-btn">
+          <%= button_tag "検索", name: nil, class: "btn btn-primary" %>
+        </span>
+      </div>
+    <% end %>
+  </div>
+</div>
 <div class="col-md-10 col-md-offset-1">
   <%= will_paginate %>
   <table class="table table-condensed table-hover" id="table-users">
-    <!--<thead>
-      <tr>
-        <th><%= User.human_attribute_name :name %></th>
-      </tr>
-    </thead>
-    -->
     <% @users.each do |user| %>
       <tr>
         <td><%= link_to user.name, user %></td>
-        <!--<td>
-          <% if current_user.admin? && !current_user?(user) %>
-            <%= link_to "削除", user, method: :delete,
-                data: { confirm: "削除してよろしいですか？" },
-                class: "btn btn-danger" %>
-          <% end %>
-        </td>-->
       </tr>
     <% end %>
   </table>
