@@ -40,7 +40,7 @@
   </div>
 
   <div class="center">
-    <%= link_to "キャンセル", user_path(date: @first_day, month: @month), class: "btn btn-default btn-cancel" %>
+    <%= link_to "キャンセル", user_path(date: @first_day, month: true), class: "btn btn-default btn-cancel" %>
     <%= f.submit "編集を保存する" ,class: "btn btn-default btn-save" %>
   </div>
 <% end %>

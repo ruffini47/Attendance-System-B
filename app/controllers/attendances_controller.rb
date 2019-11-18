@@ -47,14 +47,14 @@ class AttendancesController < ApplicationController
     if @month == "true"
       redirect_to user_url(date: params[:date], month: true)
     elsif @month == "false"
-      redirect_to user_url(date: params[:date], month: false)
+      redirect_to user_url(date: params[:date], month: true)
     end
   rescue ActiveRecord::RecordInvalid # トランザクションによるエラーの分岐です。
       flash[:danger] = "無効な入力データがあった為、更新をキャンセルしました。"
       if @month == "true"
         redirect_to attendances_edit_one_month_user_url(date: params[:date], month: true)
       elsif @month == "false"
-        redirect_to attendances_edit_one_month_user_url(date: params[:date], month: false)
+        redirect_to attendances_edit_one_month_user_url(date: params[:date], month: true)
       end
   end
   
