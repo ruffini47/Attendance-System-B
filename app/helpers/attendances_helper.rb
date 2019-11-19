@@ -14,13 +14,13 @@ module AttendancesHelper
   def working_times(start, finish)
     shour = start.hour
     fhour = finish.hour
-    smin_15 = start.min / 15 * 15
-    fmin_15 = finish.min / 15 * 15
+    smin = start.min
+    fmin = finish.min
     
-    shour_15 = shour + smin_15 / 60.0
-    fhour_15 = fhour + fmin_15 / 60.0
+    shour = shour + smin / 60.0
+    fhour = fhour + fmin / 60.0
 
-    format("%.2f", fhour_15 - shour_15)
+    format("%.2f", fhour - shour)
     
   end
 end
