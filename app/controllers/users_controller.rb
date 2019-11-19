@@ -1,15 +1,14 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit, :update, :edit_basic_info, :update_basic_info]#, :destroy]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :edit_basic_info, :update_basic_info]#, :destroy]
-  before_action :correct_user, only: [:edit, :update, :update_basic_info, :update_basic_info]
-  before_action :admin_user, only: [:index, :edit_basic_info, :update_basic_info] #:destroy
+  before_action :set_user, only: [:show, :edit, :update, :edit_basic_info, :update_basic_info, :destroy]
+  before_action :logged_in_user, only: [:index, :show, :edit, :update, :edit_basic_info, :update_basic_info, :destroy]
+  before_action :correct_user, only: [:edit, :update]
+  before_action :admin_user, only: [:index, :edit_basic_info, :update_basic_info, :destroy]
   before_action :admin_or_correct_user, only: :show
   before_action :set_one_month, only: :show
 
   def index
     if params[:user_key]
-      @users = User.where('name LIKE ?', "%#{params[:user_key]}%")
-      @users = @users.paginate(page: params[:page])
+      @users = User.where('name LIKE ?', "%#{params[:user_key]}%").paginate(page: params[:page])
     else
       @users = User.paginate(page: params[:page])
     end
@@ -46,11 +45,11 @@ class UsersController < ApplicationController
     end
   end
 
-#  def destroy
-#    @user.destroy
-#    flash[:success] = "#{@user.name}のデータを削除しました。"
-#    redirect_to users_url
-#  end
+  def destroy
+    @user.destroy
+    flash[:success] = "#{@user.name}のデータを削除しました。"
+    redirect_to users_url
+  end
 
   def edit_basic_info
   end

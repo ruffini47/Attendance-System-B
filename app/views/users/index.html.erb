@@ -1,6 +1,6 @@
 <% if params[:user_key].nil? || params[:user_key].blank? %>
   <% provide(:title, 'All Users') %>
-  <h1>すべてのユーザ</h1>
+  <h1>全てのユーザ</h1>
 <% else %>
   <% provide(:title, 'Search Results') %>
   <h1>検索結果</h1>
@@ -23,7 +23,13 @@
   <table class="table table-condensed table-hover" id="table-users">
     <% @users.each do |user| %>
       <tr>
-        <td><%= link_to user.name, user %></td>
+        <td><%= link_to user.name, user %>　
+        |　<%= link_to "基本情報編集", edit_basic_info_user_path(user) %>　
+        <% if current_user.admin? && !current_user?(user) %>
+        |　<%= link_to "削除", user, method: :delete,
+                  data: { confirm: "「#{user.name}」を削除してよろしいですか？" } %>
+            <% end %>
+        </td>
       </tr>
     <% end %>
   </table>
