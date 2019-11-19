@@ -1,11 +1,16 @@
-<% provide(:title, 'All Users') %>
-<h1>ユーザー一覧</h1>
+<% if params[:user_key].nil? || params[:user_key].blank? %>
+  <% provide(:title, 'All Users') %>
+  <h1>すべてのユーザ</h1>
+<% else %>
+  <% provide(:title, 'Search Results') %>
+  <h1>検索結果</h1>
+<% end %>
 <div id="header">
   <p class="right">ユーザー名検索</p> 
   <div id="nav-search">
-    <%= form_tag '#', method: :get do %>
+    <%= form_with url:users_path, method: :get, local: true do |f| %>
       <div class="input-group">
-        <%= text_field_tag :search, params[:search], placeholder: "キーワードを入力...", class: "form-control" %>
+        <%= text_field_tag :user_key, params[:user_key], placeholder: "キーワードを入力...", class: "form-control" %>
         <span class="input-group-btn">
           <%= button_tag "検索", name: nil, class: "btn btn-primary" %>
         </span>
@@ -24,3 +29,7 @@
   </table>
   <%= will_paginate %>  
 </div>
+
+
+
+
